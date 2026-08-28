@@ -2,3 +2,30 @@ body {
     height: 100vh;
     background-color: blue;
 }
+
+.card {
+    width: 100px;
+    aspect-ratio: 1/1;
+    background-color: blue;
+    border-radius: 10%;
+    border: none;
+
+    &__inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: all 300ms ease-in-out;
+        transform-style: preserve-3d;
+    }
+
+    &__face {
+        position: absolute;
+        inset: 0;
+        background-color: black;
+        backface-visibility: hidden;
+    }
+}
+
+.is-flipped {
+    background-color: red;
+}
