@@ -8,8 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="/projects/banana/assets/index-CNeAu2wg.js"></script>
-  <link rel="stylesheet" crossorigin href="/projects/banana/assets/index-D9FQwcAP.css">
+  <script type="module" crossorigin src="./assets/index-DU6o7kTF.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-0WHvS00a.css">
 </head>
 <body>
     <main class="hero-frame" id="startScreen">
@@ -63,16 +63,6 @@
                         <input type="radio" name="theme" value="gaming">
                         <span class="radio-mark"></span>
                         <span class="radio-label">Gaming theme</span>
-                    </label>
-                    <label class="custom-radio">
-                        <input type="radio" name="theme" value="da-projects">
-                        <span class="radio-mark"></span>
-                        <span class="radio-label">DA Projects theme</span>
-                    </label>
-                    <label class="custom-radio">
-                        <input type="radio" name="theme" value="foods">
-                        <span class="radio-mark"></span>
-                        <span class="radio-label">Foods theme</span>
                     </label>
                 </div>
 
@@ -204,23 +194,22 @@
 
     <!-- Game Over Screen -->
     <main class="game-over-screen is-hidden" id="gameOverScreen">
-        <h1 class="game-over-title">Game over</h1>
-        <p class="final-score-label">Final score</p>
-        
-        <div class="game-scores final-scores-pill">
-            <div class="score-pill blue-score-pill active">
-                <span class="player-icon"></span>
-                <span class="player-name">Blue</span>
-                <span class="player-score" id="finalScoreBlue">0</span>
+        <div class="dynamic-game-over-view" id="dynamicGameOverView">
+            <div class="confetti-container" id="confettiContainer">
+                <!-- Simple CSS/SVG confetti styled here -->
             </div>
-            <div class="score-pill orange-score-pill active">
-                <span class="player-icon"></span>
-                <span class="player-name">Orange</span>
-                <span class="player-score" id="finalScoreOrange">0</span>
+            
+            <div class="winner-text-container">
+                <p class="winner-subtitle" id="winnerSubtitle">The winner is</p>
+                <h1 class="winner-title" id="winnerTitle">ORANGE PLAYER</h1>
             </div>
+            
+            <div class="winner-icon-container" id="winnerIconContainer">
+                <!-- Icon injected by JS -->
+            </div>
+
+            <button class="btn-play-again" id="btnPlayAgainUnified" type="button">Back to start</button>
         </div>
-        
-        <button class="btn-play-again" id="btnPlayAgain" type="button">Back to Start</button>
     </main>
 </body>
 </html>
