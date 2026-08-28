@@ -5,11 +5,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const startScreen = document.getElementById("startScreen");
     const settingsScreen = document.getElementById("settingsScreen");
     const gameScreen = document.getElementById("gameScreen");
+    const gameOverScreen = document.getElementById("gameOverScreen");
 
     // Buttons
     const btnPlay = document.getElementById("btnPlay");
     const btnSettingsStart = document.getElementById("btnSettingsStart");
     const btnExitGame = document.getElementById("btnExitGame");
+    const btnPlayAgainGaming = document.getElementById("btnPlayAgainGaming");
+    const btnPlayAgainCodeVibes = document.getElementById("btnPlayAgainCodeVibes");
 
     // Summary Elements
     const summaryTheme = document.getElementById("summaryTheme");
@@ -75,6 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const initGame = () => {
         const selectedSize = document.querySelector('input[name="boardSize"]:checked') as HTMLInputElement;
         const selectedPlayer = document.querySelector('input[name="player"]:checked') as HTMLInputElement;
+        const selectedTheme = document.querySelector('input[name="theme"]:checked') as HTMLInputElement;
+        const theme = selectedTheme.value;
         
         const cardCount = parseInt(selectedSize.value); // 16, 24, 36
         totalPairs = cardCount / 2;
@@ -94,6 +99,15 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!gameGrid) return;
         gameGrid.innerHTML = '';
         
+        // Apply theme classes
+        if (theme === 'gaming') {
+            gameScreen?.classList.add('theme-gaming');
+            gameOverScreen?.classList.add('theme-gaming');
+        } else {
+            gameScreen?.classList.remove('theme-gaming');
+            gameOverScreen?.classList.remove('theme-gaming');
+        }
+        
         // Set grid columns based on size
         if (cardCount === 16) gameGrid.style.gridTemplateColumns = 'repeat(4, 1fr)';
         if (cardCount === 24) gameGrid.style.gridTemplateColumns = 'repeat(6, 1fr)';
@@ -101,10 +115,14 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // Generate deck
         const images = [];
+        const folder = theme === 'gaming' ? 'game' : 'green';
+        const maxImages = theme === 'gaming' ? 15 : 18;
+        
         for (let i = 1; i <= totalPairs; i++) {
-            const imgId = ((i - 1) % 18) + 1;
+            const imgId = ((i - 1) % maxImages) + 1;
             // Use URL to correctly resolve paths in Vite, especially with base paths
-            const imgSrc = new URL(`./img/green/card-front-${imgId}.png`, import.meta.url).href;
+            const prefix = theme === 'gaming' ? 'game-card-front-' : 'card-front-';
+            const imgSrc = new URL(`./img/${folder}/${prefix}${imgId}.png`, import.meta.url).href;
             images.push(imgSrc);
             images.push(imgSrc); // pair
         }
@@ -112,7 +130,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // Shuffle
         images.sort(() => Math.random() - 0.5);
         
-        const backImgSrc = new URL('./img/green/card-back.png', import.meta.url).href;
+        const backImgSrc = theme === 'gaming' 
+            ? new URL('./img/game/game-card-back.png', import.meta.url).href
+            : new URL('./img/green/card-back.png', import.meta.url).href;
         
         // Create DOM
         images.forEach((src, idx) => {
@@ -168,7 +188,46 @@ document.addEventListener("DOMContentLoaded", () => {
             
             matchedPairs++;
             if (matchedPairs === totalPairs) {
-                setTimeout(() => alert(`Game Over! Blue: ${scoreBlue}, Orange: ${scoreOrange}`), 500);
+                setTimeout(() => {
+                    // Update Gaming Theme view (old logic)
+                    const finalScoreBlue = document.getElementById("finalScoreBlue");
+                    const finalScoreOrange = document.getElementById("finalScoreOrange");
+                    if (finalScoreBlue) finalScoreBlue.textContent = scoreBlue.toString();
+                    if (finalScoreOrange) finalScoreOrange.textContent = scoreOrange.toString();
+                    
+                    // Update Code Vibes View
+                    const subtitle = document.getElementById("winnerSubtitle");
+                    const title = document.getElementById("winnerTitle");
+                    const iconContainer = document.getElementById("winnerIconContainer");
+                    const confetti = document.getElementById("confettiContainer");
+                    
+                    if (subtitle && title && iconContainer && confetti) {
+                        // Reset classes
+                        title.className = "winner-title";
+                        confetti.classList.remove("is-hidden");
+                        
+                        if (scoreBlue === scoreOrange) {
+                            subtitle.textContent = "It's a";
+                            title.textContent = "DRAW";
+                            title.classList.add("color-draw");
+                            confetti.classList.add("is-hidden");
+                            iconContainer.innerHTML = `<svg class="icon-draw" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2Z"/><path d="M12 17V3"/><path d="M5 6h14"/><path d="m5 6-3 7s1 2 3 2 3-2 3-2L5 6Z"/><path d="m19 6-3 7s1 2 3 2 3-2 3-2L19 6Z"/></svg>`;
+                        } else if (scoreBlue > scoreOrange) {
+                            subtitle.textContent = "The winner is";
+                            title.textContent = "BLUE PLAYER";
+                            title.classList.add("color-blue");
+                            iconContainer.innerHTML = `<svg class="icon-blue" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/><path d="m19 22-2-4H7l-2 4h14Z"/><path d="M10 18h4v-3.5L16 9H8l2 5.5V18Z"/></svg>`;
+                        } else {
+                            subtitle.textContent = "The winner is";
+                            title.textContent = "ORANGE PLAYER";
+                            title.classList.add("color-orange");
+                            iconContainer.innerHTML = `<svg class="icon-orange" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/><path d="m19 22-2-4H7l-2 4h14Z"/><path d="M10 18h4v-3.5L16 9H8l2 5.5V18Z"/></svg>`;
+                        }
+                    }
+
+                    gameScreen?.classList.add("is-hidden");
+                    gameOverScreen?.classList.remove("is-hidden");
+                }, 500);
             }
             
             flippedCards = [];
@@ -215,6 +274,21 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btnExitGame) {
         btnExitGame.addEventListener("click", () => {
             gameScreen?.classList.add("is-hidden");
+            startScreen?.classList.remove("is-hidden");
+        });
+    }
+
+    // Navigation: Play Again (Back to Start)
+    if (btnPlayAgainGaming) {
+        btnPlayAgainGaming.addEventListener("click", () => {
+            gameOverScreen?.classList.add("is-hidden");
+            startScreen?.classList.remove("is-hidden");
+        });
+    }
+    
+    if (btnPlayAgainCodeVibes) {
+        btnPlayAgainCodeVibes.addEventListener("click", () => {
+            gameOverScreen?.classList.add("is-hidden");
             startScreen?.classList.remove("is-hidden");
         });
     }

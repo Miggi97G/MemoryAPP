@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script type="module" src="/src/main.ts"></script>
 </head>
 <body>
@@ -157,21 +158,34 @@
     <!-- Game Screen -->
     <main class="game-screen is-hidden" id="gameScreen">
         <div class="game-topbar">
-            <div class="game-scores">
-                <div class="score-pill blue-score-pill active">
-                    <span class="player-icon"></span>
-                    <span class="player-name">Blue</span>
-                    <span class="player-score" id="scoreBlue">0</span>
-                </div>
-                <div class="score-pill orange-score-pill">
-                    <span class="player-icon"></span>
-                    <span class="player-name">Orange</span>
-                    <span class="player-score" id="scoreOrange">0</span>
+            <!-- Wrapped in a container for the gaming theme's white pill background -->
+            <div class="game-scores-wrapper">
+                <div class="game-scores">
+                    <div class="score-pill blue-score-pill active">
+                        <span class="player-icon">
+                            <!-- Chess pawn for gaming theme -->
+                            <svg class="icon-pawn" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/><path d="m19 22-2-4H7l-2 4h14Z"/><path d="M10 18h4v-3.5L16 9H8l2 5.5V18Z"/></svg>
+                        </span>
+                        <span class="player-name">Blue</span>
+                        <span class="player-score" id="scoreBlue">0</span>
+                    </div>
+                    <div class="score-pill orange-score-pill">
+                        <span class="player-icon">
+                            <!-- Chess pawn for gaming theme -->
+                            <svg class="icon-pawn" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/><path d="m19 22-2-4H7l-2 4h14Z"/><path d="M10 18h4v-3.5L16 9H8l2 5.5V18Z"/></svg>
+                        </span>
+                        <span class="player-name">Orange</span>
+                        <span class="player-score" id="scoreOrange">0</span>
+                    </div>
                 </div>
             </div>
             
             <div class="game-current-turn">
-                Current player: <span class="current-player-dot blue-dot" id="currentPlayerDot"></span>
+                Current player: 
+                <span class="current-player-dot blue-dot" id="currentPlayerDot">
+                    <!-- Chess pawn for gaming theme -->
+                    <svg class="icon-pawn" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/><path d="m19 22-2-4H7l-2 4h14Z"/><path d="M10 18h4v-3.5L16 9H8l2 5.5V18Z"/></svg>
+                </span>
             </div>
             
             <button class="btn-exit" id="btnExitGame" type="button">
@@ -184,6 +198,26 @@
             <div class="game-grid" id="gameGrid">
                 <!-- Cards will be injected here by main.ts -->
             </div>
+        </div>
+    </main>
+
+    <!-- Game Over Screen -->
+    <main class="game-over-screen is-hidden" id="gameOverScreen">
+        <div class="dynamic-game-over-view" id="dynamicGameOverView">
+            <div class="confetti-container" id="confettiContainer">
+                <!-- Simple CSS/SVG confetti styled here -->
+            </div>
+            
+            <div class="winner-text-container">
+                <p class="winner-subtitle" id="winnerSubtitle">The winner is</p>
+                <h1 class="winner-title" id="winnerTitle">ORANGE PLAYER</h1>
+            </div>
+            
+            <div class="winner-icon-container" id="winnerIconContainer">
+                <!-- Icon injected by JS -->
+            </div>
+
+            <button class="btn-play-again" id="btnPlayAgainUnified" type="button">Back to start</button>
         </div>
     </main>
 </body>

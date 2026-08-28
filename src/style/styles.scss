@@ -592,4 +592,250 @@ body {
         height: 100%;
         object-fit: cover;
     }
+
+    /* By default, hide the pawn icon */
+    .icon-pawn {
+        display: none;
+    }
+}
+
+/* =========================================
+   Gaming Theme Overrides
+   ========================================= */
+.game-screen.theme-gaming {
+    background-color: #2b3a4a;
+    font-family: 'Orbitron', sans-serif;
+
+    .game-topbar {
+        border-bottom: 2px dashed #00bcd4;
+        padding-bottom: 20px;
+    }
+
+    .game-scores-wrapper {
+        background-color: #ffffff;
+        padding: 4px 16px;
+        border-radius: 8px;
+    }
+
+    .game-scores {
+        background: transparent;
+        padding: 0;
+        
+        .score-pill {
+            opacity: 1;
+            
+            .player-icon {
+                background: transparent !important;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .player-name {
+                display: none; /* Hide names in gaming theme */
+            }
+            
+            .icon-pawn {
+                display: block;
+            }
+        }
+    }
+
+    .game-current-turn {
+        font-family: 'Orbitron', sans-serif;
+        
+        .current-player-dot {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 4px;
+            
+            .icon-pawn {
+                display: block;
+                color: #fff;
+            }
+        }
+    }
+
+    .btn-exit {
+        border-color: #e91e63;
+        color: #fff;
+        
+        &:hover {
+            background-color: rgba(233, 30, 99, 0.2);
+        }
+    }
+
+    /* Card styling overrides */
+    .card-front {
+        background: linear-gradient(135deg, #d81b60, #880e4f);
+        border: 2px solid rgba(0, 0, 0, 0.2);
+        
+        img {
+            display: none; /* Hide the green theme card back image */
+        }
+    }
+    
+    .card-back {
+        background-color: #2b3a4a;
+    }
+}
+
+/* =========================================
+   Game Over Screen
+   ========================================= */
+.game-over-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #383a3f;
+    color: #ffffff;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    &.is-hidden {
+        display: none;
+    }
+
+    .dynamic-game-over-view {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        position: relative;
+        height: 100%;
+        justify-content: center;
+    }
+
+    .btn-play-again {
+        background: transparent;
+        color: rgba(255,255,255,0.6);
+        border: 1px solid rgba(255,255,255,0.2);
+        padding: 10px 24px;
+        border-radius: 6px;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        
+        &:hover {
+            color: #fff;
+            border-color: #fff;
+        }
+    }
+
+    /* --- Code Vibes Winner Screen Styles --- */
+    .confetti-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 150px;
+        background-image: 
+            radial-gradient(circle at 10% 20%, #e91e63 4px, transparent 4px),
+            radial-gradient(circle at 20% 50%, #03a9f4 5px, transparent 5px),
+            radial-gradient(circle at 30% 10%, #ffeb3b 4px, transparent 4px),
+            radial-gradient(circle at 40% 70%, #4caf50 6px, transparent 6px),
+            radial-gradient(circle at 60% 30%, #e91e63 5px, transparent 5px),
+            radial-gradient(circle at 70% 60%, #03a9f4 4px, transparent 4px),
+            radial-gradient(circle at 80% 20%, #ffeb3b 5px, transparent 5px),
+            radial-gradient(circle at 90% 50%, #4caf50 4px, transparent 4px);
+        background-size: 100% 150px;
+        background-repeat: no-repeat;
+        opacity: 0.8;
+        pointer-events: none;
+        
+        &.is-hidden {
+            display: none;
+        }
+    }
+
+    .winner-text-container {
+        text-align: center;
+        margin-top: 60px;
+    }
+
+    .winner-subtitle {
+        font-size: 16px;
+        color: #fff;
+        margin-bottom: 8px;
+    }
+
+    .winner-title {
+        font-size: 32px;
+        font-weight: 800;
+        margin-bottom: 60px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        
+        &.color-orange { color: #f97316; }
+        &.color-blue { color: #0ea5e9; }
+        &.color-draw { color: #14b8a6; } /* Cyan for draw */
+    }
+
+    .winner-icon-container {
+        margin-bottom: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        svg {
+            width: 120px;
+            height: 120px;
+        }
+        
+        .icon-orange { stroke: #f97316; }
+        .icon-blue { stroke: #0ea5e9; }
+        .icon-draw { fill: #14b8a6; stroke: none; }
+        .icon-draw-gaming { fill: #d81b60; stroke: none; }
+        
+        /* Trophy styles for Gaming theme */
+        .icon-trophy {
+            .trophy-cup { fill: #fbbf24; }
+            .trophy-base { fill: #334155; }
+            .trophy-star { fill: #ffffff; }
+        }
+    }
+
+    .btn-play-again {
+        background-color: #2b3d36;
+        border: 1px solid #3c594c;
+        color: #fff;
+        padding: 10px 24px;
+        border-radius: 6px;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        
+        &:hover {
+            background-color: #3c594c;
+        }
+    }
+
+    /* Gaming theme overrides for Game Over screen */
+    &.theme-gaming {
+        background-color: #2b3a4a;
+        font-family: 'Orbitron', sans-serif;
+
+        .winner-title {
+            text-transform: none; /* Casing is handled by JS for Gaming theme */
+        }
+
+        .btn-play-again {
+            background-color: transparent;
+            border-color: #d81b60;
+            
+            &:hover {
+                background-color: rgba(216, 27, 96, 0.15);
+            }
+        }
+    }
 }
