@@ -1,20 +1,191 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memory</title>
-  <script type="module" crossorigin src="/projects/banana/assets/index-ccom6b9q.js"></script>
-  <link rel="stylesheet" crossorigin href="/projects/banana/assets/index-BOcJ_j3V.css">
+    <title>Memory Game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="/projects/banana/assets/index-BooKXzry.js"></script>
+  <link rel="stylesheet" crossorigin href="/projects/banana/assets/index-nU3o7oMI.css">
 </head>
-
 <body>
-    <section id="field">
-        <button class="card"></button>
-    </section>
+    <main class="hero-frame" id="startScreen">
+        <!-- Gamepad Watermark in Bottom Left -->
+        <div class="watermark-wrapper" aria-hidden="true">
+            <svg class="watermark-svg" viewBox="0 0 200 160" fill="none" stroke="#414434" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M 50 38 C 70 38, 80 48, 100 48 C 120 48, 130 38, 150 38 C 178 38, 192 58, 192 98 C 192 136, 172 150, 152 146 C 134 142, 126 116, 100 116 C 74 116, 66 142, 48 146 C 28 150, 8 136, 8 98 C 8 58, 22 38, 50 38 Z" />
+                <path d="M 52 74 L 52 104 M 37 89 L 67 89" stroke-width="10" />
+                <circle cx="150" cy="76" r="5" fill="#414434" stroke="none" />
+                <circle cx="163" cy="89" r="5" fill="#414434" stroke="none" />
+                <circle cx="137" cy="89" r="5" fill="#414434" stroke="none" />
+                <circle cx="150" cy="102" r="5" fill="#414434" stroke="none" />
+            </svg>
+        </div>
 
-    <h1>Test</h1>
+        <!-- Central Content -->
+        <div class="hero-center">
+            <div class="hero-headings">
+                <p class="eyebrow">It’s play time.</p>
+                <h1 class="main-title">Ready to play?</h1>
+            </div>
+
+            <button class="play-button" id="btnPlay" type="button">
+                <span>Start game</span>
+            </button>
+        </div>
+    </main>
+
+    <!-- Settings Screen -->
+    <main class="settings-screen is-hidden" id="settingsScreen">
+        <div class="settings-container">
+            <!-- Left Column: Options -->
+            <div class="settings-left">
+                <div class="settings-header">
+                    <h2>Settings</h2>
+                    <div class="header-underline"></div>
+                </div>
+
+                <div class="settings-group">
+                    <h3 class="group-title">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e91e63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="#e91e63"/><circle cx="17.5" cy="10.5" r=".5" fill="#e91e63"/><circle cx="8.5" cy="7.5" r=".5" fill="#e91e63"/><circle cx="6.5" cy="12.5" r=".5" fill="#e91e63"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C22 7.026 17.526 2 12 2z"/></svg>
+                        Game themes
+                    </h3>
+                    <label class="custom-radio">
+                        <input type="radio" name="theme" value="code-vibes" checked>
+                        <span class="radio-mark"></span>
+                        <span class="radio-label">Code vibes theme</span>
+                        <span class="selected-indicator"></span>
+                    </label>
+                    <label class="custom-radio">
+                        <input type="radio" name="theme" value="gaming">
+                        <span class="radio-mark"></span>
+                        <span class="radio-label">Gaming theme</span>
+                    </label>
+                    <label class="custom-radio">
+                        <input type="radio" name="theme" value="da-projects">
+                        <span class="radio-mark"></span>
+                        <span class="radio-label">DA Projects theme</span>
+                    </label>
+                    <label class="custom-radio">
+                        <input type="radio" name="theme" value="foods">
+                        <span class="radio-mark"></span>
+                        <span class="radio-label">Foods theme</span>
+                    </label>
+                </div>
+
+                <div class="settings-group">
+                    <h3 class="group-title">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00bcd4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Choose player
+                    </h3>
+                    <label class="custom-radio">
+                        <input type="radio" name="player" value="blue" checked>
+                        <span class="radio-mark"></span>
+                        <span class="radio-label">Blue</span>
+                    </label>
+                    <label class="custom-radio">
+                        <input type="radio" name="player" value="orange">
+                        <span class="radio-mark"></span>
+                        <span class="radio-label">Orange</span>
+                    </label>
+                </div>
+
+                <div class="settings-group">
+                    <h3 class="group-title">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3f51b5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                        Board size
+                    </h3>
+                    <label class="custom-radio">
+                        <input type="radio" name="boardSize" value="16" checked>
+                        <span class="radio-mark"></span>
+                        <span class="radio-label">16 cards</span>
+                    </label>
+                    <label class="custom-radio">
+                        <input type="radio" name="boardSize" value="24">
+                        <span class="radio-mark"></span>
+                        <span class="radio-label">24 cards</span>
+                    </label>
+                    <label class="custom-radio">
+                        <input type="radio" name="boardSize" value="36">
+                        <span class="radio-mark"></span>
+                        <span class="radio-label">36 cards</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Right Column: Preview & Action -->
+            <div class="settings-right">
+                <div class="preview-box">
+                    <div class="preview-topbar">
+                        <div class="preview-players">
+                            <span class="player-pill blue-player"><span class="dot"></span> Blue 0</span>
+                            <span class="player-pill orange-player"><span class="dot"></span> Orange 0</span>
+                        </div>
+                        <div class="preview-current">Current player: <span class="current-dot blue-dot"></span></div>
+                        <div class="preview-exit">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                            Exit game
+                        </div>
+                    </div>
+                    
+                    <div class="preview-board">
+                        <div class="preview-card card-cyan">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                        </div>
+                        <div class="preview-card card-white">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#e91e63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><circle cx="18" cy="6" r="3"></circle><path d="M18 9v6"></path><path d="M6 9v3a3 3 0 0 0 3 3h6"></path></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-bar">
+                    <span id="summaryTheme">Game theme</span>
+                    <span class="separator">/</span>
+                    <span id="summaryPlayer">Player</span>
+                    <span class="separator">/</span>
+                    <span id="summarySize">Board size</span>
+                    <button class="btn-start" id="btnSettingsStart" type="button">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"></rect><path d="M10 16l6-4-6-4v8z"></path></svg>
+                        Start
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Game Screen -->
+    <main class="game-screen is-hidden" id="gameScreen">
+        <div class="game-topbar">
+            <div class="game-scores">
+                <div class="score-pill blue-score-pill active">
+                    <span class="player-icon"></span>
+                    <span class="player-name">Blue</span>
+                    <span class="player-score" id="scoreBlue">0</span>
+                </div>
+                <div class="score-pill orange-score-pill">
+                    <span class="player-icon"></span>
+                    <span class="player-name">Orange</span>
+                    <span class="player-score" id="scoreOrange">0</span>
+                </div>
+            </div>
+            
+            <div class="game-current-turn">
+                Current player: <span class="current-player-dot blue-dot" id="currentPlayerDot"></span>
+            </div>
+            
+            <button class="btn-exit" id="btnExitGame" type="button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                Exit game
+            </button>
+        </div>
+
+        <div class="game-board-container">
+            <div class="game-grid" id="gameGrid">
+                <!-- Cards will be injected here by main.ts -->
+            </div>
+        </div>
+    </main>
 </body>
-
 </html>
