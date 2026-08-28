@@ -11,8 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnPlay = document.getElementById("btnPlay");
     const btnSettingsStart = document.getElementById("btnSettingsStart");
     const btnExitGame = document.getElementById("btnExitGame");
-    const btnPlayAgainGaming = document.getElementById("btnPlayAgainGaming");
-    const btnPlayAgainCodeVibes = document.getElementById("btnPlayAgainCodeVibes");
+    const btnPlayAgainUnified = document.getElementById("btnPlayAgainUnified");
 
     // Summary Elements
     const summaryTheme = document.getElementById("summaryTheme");
@@ -189,39 +188,46 @@ document.addEventListener("DOMContentLoaded", () => {
             matchedPairs++;
             if (matchedPairs === totalPairs) {
                 setTimeout(() => {
-                    // Update Gaming Theme view (old logic)
-                    const finalScoreBlue = document.getElementById("finalScoreBlue");
-                    const finalScoreOrange = document.getElementById("finalScoreOrange");
-                    if (finalScoreBlue) finalScoreBlue.textContent = scoreBlue.toString();
-                    if (finalScoreOrange) finalScoreOrange.textContent = scoreOrange.toString();
-                    
-                    // Update Code Vibes View
                     const subtitle = document.getElementById("winnerSubtitle");
                     const title = document.getElementById("winnerTitle");
                     const iconContainer = document.getElementById("winnerIconContainer");
                     const confetti = document.getElementById("confettiContainer");
                     
-                    if (subtitle && title && iconContainer && confetti) {
+                    const selectedTheme = document.querySelector('input[name="theme"]:checked') as HTMLInputElement;
+                    const theme = selectedTheme ? selectedTheme.value : 'code-vibes';
+                    
+                    if (subtitle && title && iconContainer && confetti && btnPlayAgainUnified) {
                         // Reset classes
                         title.className = "winner-title";
-                        confetti.classList.remove("is-hidden");
                         
+                        // Get correct SVGs
+                        const trophySvg = `<svg class="icon-trophy" viewBox="0 0 24 24" fill="none"><path class="trophy-cup" d="M17 3H7c-1.1 0-2 .9-2 2v2c0 2.2 1.8 4 4 4h6c2.2 0 4-1.8 4-4V5c0-1.1-.9-2-2-2z"/><path class="trophy-cup" d="M22 6h-3M2 6h3"/><path class="trophy-base" d="M12 11v6m-4 0h8v4H8z"/><path class="trophy-star" d="m12 5 1 2 2 .5-1.5 1.5.5 2-2-1-2 1 .5-2-1.5-1.5 2-.5z"/></svg>`;
+                        const pawnBlueSvg = `<svg class="icon-blue" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/><path d="m19 22-2-4H7l-2 4h14Z"/><path d="M10 18h4v-3.5L16 9H8l2 5.5V18Z"/></svg>`;
+                        const pawnOrangeSvg = `<svg class="icon-orange" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/><path d="m19 22-2-4H7l-2 4h14Z"/><path d="M10 18h4v-3.5L16 9H8l2 5.5V18Z"/></svg>`;
+                        const scalesCyanSvg = `<svg class="icon-draw" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2Z"/><path d="M12 17V3"/><path d="M5 6h14"/><path d="m5 6-3 7s1 2 3 2 3-2 3-2L5 6Z"/><path d="m19 6-3 7s1 2 3 2 3-2 3-2L19 6Z"/></svg>`;
+                        const scalesMagentaSvg = `<svg class="icon-draw-gaming" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2Z"/><path d="M12 17V3"/><path d="M5 6h14"/><path d="m5 6-3 7s1 2 3 2 3-2 3-2L5 6Z"/><path d="m19 6-3 7s1 2 3 2 3-2 3-2L19 6Z"/></svg>`;
+
                         if (scoreBlue === scoreOrange) {
                             subtitle.textContent = "It's a";
                             title.textContent = "DRAW";
-                            title.classList.add("color-draw");
+                            title.classList.add(theme === 'gaming' ? 'color-draw-gaming' : 'color-draw'); // In gaming it uses magenta (from default color)
                             confetti.classList.add("is-hidden");
-                            iconContainer.innerHTML = `<svg class="icon-draw" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2Z"/><path d="M12 17V3"/><path d="M5 6h14"/><path d="m5 6-3 7s1 2 3 2 3-2 3-2L5 6Z"/><path d="m19 6-3 7s1 2 3 2 3-2 3-2L19 6Z"/></svg>`;
+                            iconContainer.innerHTML = theme === 'gaming' ? scalesMagentaSvg : scalesCyanSvg;
+                            btnPlayAgainUnified.textContent = theme === 'gaming' ? "Home" : "Back to start";
                         } else if (scoreBlue > scoreOrange) {
                             subtitle.textContent = "The winner is";
-                            title.textContent = "BLUE PLAYER";
+                            title.textContent = theme === 'gaming' ? "Blue Player" : "BLUE PLAYER";
                             title.classList.add("color-blue");
-                            iconContainer.innerHTML = `<svg class="icon-blue" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/><path d="m19 22-2-4H7l-2 4h14Z"/><path d="M10 18h4v-3.5L16 9H8l2 5.5V18Z"/></svg>`;
+                            confetti.classList.toggle("is-hidden", theme === 'gaming');
+                            iconContainer.innerHTML = theme === 'gaming' ? trophySvg : pawnBlueSvg;
+                            btnPlayAgainUnified.textContent = theme === 'gaming' ? "Home" : "Back to start";
                         } else {
                             subtitle.textContent = "The winner is";
-                            title.textContent = "ORANGE PLAYER";
+                            title.textContent = theme === 'gaming' ? "Orange Player" : "ORANGE PLAYER";
                             title.classList.add("color-orange");
-                            iconContainer.innerHTML = `<svg class="icon-orange" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/><path d="m19 22-2-4H7l-2 4h14Z"/><path d="M10 18h4v-3.5L16 9H8l2 5.5V18Z"/></svg>`;
+                            confetti.classList.toggle("is-hidden", theme === 'gaming');
+                            iconContainer.innerHTML = theme === 'gaming' ? trophySvg : pawnOrangeSvg;
+                            btnPlayAgainUnified.textContent = theme === 'gaming' ? "Home" : "Back to start";
                         }
                     }
 
@@ -279,15 +285,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Navigation: Play Again (Back to Start)
-    if (btnPlayAgainGaming) {
-        btnPlayAgainGaming.addEventListener("click", () => {
-            gameOverScreen?.classList.add("is-hidden");
-            startScreen?.classList.remove("is-hidden");
-        });
-    }
-    
-    if (btnPlayAgainCodeVibes) {
-        btnPlayAgainCodeVibes.addEventListener("click", () => {
+    if (btnPlayAgainUnified) {
+        btnPlayAgainUnified.addEventListener("click", () => {
             gameOverScreen?.classList.add("is-hidden");
             startScreen?.classList.remove("is-hidden");
         });
